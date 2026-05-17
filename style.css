@@ -1,0 +1,1080 @@
+:root {
+    --primary: #FADADD;
+    --secondary: #B76E79;
+    --tertiary: #FFF9F0;
+    --neutral: #5D4037;
+    --font-headline: 'Playfair Display', serif;
+    --font-body: 'EB Garamond', serif;
+    --font-label: 'Quicksand', sans-serif;
+}
+
+body {
+    background-color: var(--tertiary);
+    color: var(--neutral);
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+}
+
+.headline {
+    font-family: var(--font-headline);
+    color: var(--neutral);
+    font-size: 3rem;
+    margin-bottom: 10px;
+}
+
+.body-text {
+    font-family: var(--font-body);
+    color: var(--neutral);
+    font-size: 1.2rem;
+    line-height: 1.6;
+}
+
+.label {
+    font-family: var(--font-label);
+    color: var(--secondary);
+    font-size: 1rem;
+    letter-spacing: 2px;
+}
+
+.hero {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background-color: var(--primary);
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+    padding-bottom: 120px; /* ruang untuk flower border di bawah */
+}
+
+.section {
+    padding: 80px 10%;
+    min-height: 50vh;
+}
+
+.content-split {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+}
+
+.content-split.reverse {
+    flex-direction: row-reverse;
+}
+
+.text-box {
+    flex: 1;
+}
+
+.image-box {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+}
+
+.polaroid {
+    background-color: #FFFFFF;
+    padding: 15px 15px 50px 15px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    transform: rotate(-3deg);
+    border: 1px solid var(--primary);
+}
+
+.content-split.reverse .polaroid {
+    transform: rotate(3deg);
+}
+
+.photo-placeholder {
+    width: 300px;
+    height: 400px;
+    background-color: var(--secondary);
+}
+
+/* ===== PHOTO GRID ===== */
+.photo-grid {
+    text-align: center;
+}
+
+.text-overlay {
+    position: relative;
+    display: inline-block;
+    margin-bottom: 10px;
+}
+
+.text-overlay::after {
+    content: '';
+    display: block;
+    height: 3px;
+    width: 0%;
+    background: var(--secondary);
+    margin: 8px auto 0;
+    transition: width 1.2s ease;
+    border-radius: 2px;
+}
+
+.photo-grid.visible .text-overlay::after {
+    width: 60%;
+}
+
+.grid-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    gap: 25px;
+    margin-top: 50px;
+    flex-wrap: wrap;
+}
+
+.grid-container .photo {
+    width: 260px;
+    height: 380px;
+    background-color: var(--secondary);
+    border-radius: 6px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 15px 35px rgba(93, 64, 55, 0.15);
+
+    /* Agar <img> di dalam .photo mengisi kotak dengan rapi */
+    .grid-container .photo img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+        display: block;
+    }
+
+    /* State awal: tersembunyi */
+    opacity: 0;
+    transform: translateY(80px) rotate(0deg);
+    transition: opacity 0.8s ease,
+    transform 0.8s ease,
+    box-shadow 0.3s ease;
+}
+
+/* Foto ke-1: miring kiri */
+.grid-container .photo:nth-child(1) {
+    transform: translateY(80px) rotate(-8deg);
+    transition-delay: 0.1s;
+}
+
+/* Foto ke-2: tengah, sedikit lebih tinggi */
+.grid-container .photo:nth-child(2) {
+    transform: translateY(80px) rotate(0deg);
+    height: 420px;
+    transition-delay: 0.3s;
+}
+
+/* Foto ke-3: miring kanan */
+.grid-container .photo:nth-child(3) {
+    transform: translateY(80px) rotate(8deg);
+    transition-delay: 0.5s;
+}
+
+/* Saat section menjadi visible */
+.photo-grid.visible .photo {
+    opacity: 1;
+}
+
+.photo-grid.visible .photo:nth-child(1) {
+    transform: translateY(0) rotate(-6deg);
+}
+
+.photo-grid.visible .photo:nth-child(2) {
+    transform: translateY(-20px) rotate(0deg);
+}
+
+.photo-grid.visible .photo:nth-child(3) {
+    transform: translateY(0) rotate(6deg);
+}
+
+/* Hover efek pada masing-masing foto */
+.grid-container .photo:hover {
+    transform: translateY(-12px) rotate(0deg) scale(1.04) !important;
+    box-shadow: 0 25px 50px rgba(93, 64, 55, 0.25);
+    z-index: 10;
+}
+
+/* Shimmer/shine loading effect sebelum gambar ada */
+.grid-container .photo::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg,
+            rgba(255, 255, 255, 0) 40%,
+            rgba(255, 255, 255, 0.25) 50%,
+            rgba(255, 255, 255, 0) 60%);
+    background-size: 200% 200%;
+    animation: shimmer 2.5s infinite;
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: -100% -100%;
+    }
+
+    100% {
+        background-position: 200% 200%;
+    }
+}
+
+/* Label nomor di pojok foto */
+.grid-container .photo::after {
+    content: attr(data-label);
+    position: absolute;
+    bottom: 14px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: var(--font-label);
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.75);
+    letter-spacing: 1px;
+    white-space: nowrap;
+}
+
+/* ===== END PHOTO GRID ===== */
+
+.final-letter {
+    text-align: center;
+    background-color: var(--primary);
+    padding: 100px 20%;
+}
+
+.letter {
+    margin-top: 30px;
+    text-align: justify;
+}
+
+.scroll-anim {
+    opacity: 0;
+    transform: translateY(50px);
+    transition: opacity 1s ease-out, transform 1s ease-out;
+}
+
+.scroll-anim.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* ══════════════════════════════════════════
+   FLOWER DECORATIONS
+   ══════════════════════════════════════════ */
+
+/* Base class semua bunga dekorasi */
+.deco {
+    position: absolute;
+    pointer-events: none;  /* tidak mengganggu klik */
+    z-index: 0;
+    opacity: 0.88;
+    transition: opacity 0.4s ease;
+}
+
+/* Pastikan konten section tetap di atas bunga */
+.section > *:not(.deco) {
+    position: relative;
+    z-index: 1;
+}
+
+/* ─── HERO ─── */
+/* Lily bouquet — pojok kiri bawah */
+.deco-hero-left {
+    width: 340px;
+    bottom: -30px;
+    left: -40px;
+    transform: rotate(-10deg);
+    animation: float-slow 6s ease-in-out infinite;
+    opacity: 0.85;
+}
+
+/* Pink blossom single — pojok kanan atas */
+.deco-hero-right {
+    width: 220px;
+    top: -20px;
+    right: -20px;
+    transform: rotate(25deg);
+    animation: float-slow 7s ease-in-out infinite reverse;
+    opacity: 0.80;
+}
+
+/* Float animation untuk hero flowers */
+@keyframes float-slow {
+    0%, 100% { transform: translateY(0px) rotate(-10deg); }
+    50%       { transform: translateY(-14px) rotate(-10deg); }
+}
+.deco-hero-right {
+    animation-name: float-slow-right;
+}
+@keyframes float-slow-right {
+    0%, 100% { transform: translateY(0px) rotate(25deg); }
+    50%       { transform: translateY(-10px) rotate(25deg); }
+}
+
+/* ─── FLOWER BORDER (pemisah section) ─── */
+.flower-border {
+    width: 100%;
+    overflow: hidden;
+    line-height: 0;
+    opacity: 0.75;
+    margin: -10px 0;
+}
+
+.flower-border img {
+    width: 100%;
+    display: block;
+    object-fit: cover;
+    max-height: 140px;
+}
+
+/* ─── SECTION — lily stem kiri ─── */
+.deco-section-left {
+    width: 180px;
+    bottom: 0;
+    left: -20px;
+    transform: rotate(8deg);
+    transform-origin: bottom center;
+    animation: sway 5s ease-in-out infinite;
+    opacity: 0.75;
+}
+
+@keyframes sway {
+    0%, 100% { transform: rotate(8deg); }
+    50%       { transform: rotate(12deg); }
+}
+
+/* ─── SECTION — azalea / peony kanan bawah ─── */
+.deco-section-right {
+    width: 200px;
+    bottom: -10px;
+    right: -15px;
+    transform: rotate(-15deg);
+    animation: sway-right 5.5s ease-in-out infinite;
+    opacity: 0.80;
+}
+
+@keyframes sway-right {
+    0%, 100% { transform: rotate(-15deg); }
+    50%       { transform: rotate(-10deg); }
+}
+
+/* ─── SECTION — cherry blossom kiri atas ─── */
+.deco-section-left-top {
+    width: 260px;
+    top: 0px;
+    left: -30px;
+    transform: rotate(-5deg);
+    opacity: 0.70;
+    animation: sway 6s ease-in-out infinite;
+}
+
+/* ─── FINAL LETTER — Rose kiri ─── */
+.deco-letter-left {
+    width: 220px;
+    bottom: 20px;
+    left: 20px;
+    transform: rotate(-12deg);
+    opacity: 0.80;
+    animation: float-slow 7s ease-in-out infinite;
+}
+
+/* ─── FINAL LETTER — Lily kanan ─── */
+.deco-letter-right {
+    width: 200px;
+    top: 20px;
+    right: 20px;
+    transform: rotate(12deg) scaleX(-1);
+    opacity: 0.80;
+    animation: float-slow 6.5s ease-in-out infinite reverse;
+}
+/* ══════════════════════════════════════════
+   END FLOWER DECORATIONS
+   ══════════════════════════════════════════ */
+
+/* ══ HERO HEADING WRAP (untuk posisi bouquet di sebelah Putri) ══ */
+.hero-heading-wrap {
+    position: relative;
+    display: inline-block;
+}
+
+/* Wrapper kata "Nasywa" — bunga diposisikan tepat di sebelahnya */
+.nasywa-wrap {
+    position: relative;
+    display: inline-block;
+    white-space: nowrap;
+}
+
+/* Pink blossom tepat di sebelah KIRI kata "Nasywa" */
+.deco-nasywa {
+    position: absolute;
+    width: 150px;
+    right: calc(100% + 6px);  /* langsung di sebelah kiri kata Nasywa */
+    top: 50%;
+    transform: translateY(-60%);
+    pointer-events: none;
+    opacity: 0.90;
+    animation: float-nasywa 4.5s ease-in-out infinite;
+    filter: drop-shadow(0 3px 6px rgba(183,110,121,0.20));
+}
+
+@keyframes float-nasywa {
+    0%, 100% { transform: translateY(-60%) rotate(0deg); }
+    50%       { transform: translateY(-68%) rotate(5deg); }
+}
+
+/* Lily bouquet di sebelah kanan "Nasywa Ardelia Putri" */
+.deco-putri {
+    position: absolute;
+    width: 130px;
+    right: -140px;
+    top: 50%;
+    transform: translateY(-55%);
+    pointer-events: none;
+    opacity: 0.92;
+    animation: float-putri 5s ease-in-out infinite;
+    filter: drop-shadow(0 4px 8px rgba(183,110,121,0.15));
+}
+
+@keyframes float-putri {
+    0%, 100% { transform: translateY(-55%) rotate(-3deg); }
+    50%       { transform: translateY(-62%) rotate(-3deg); }
+}
+
+/* ══ FLOWER BORDER di bawah HERO (3 foto berjajar) ══ */
+.hero-flower-bottom {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    align-items: flex-end;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.hero-flower-bottom img {
+    width: 33.34%;
+    display: block;
+    object-fit: cover;
+    object-position: top;
+    max-height: 170px;
+    flex-shrink: 0;
+}
+
+
+/* ═══════════════════════════════════════════
+   MEMORY PHOTO RUNNING STRIP — Design Update
+   ═══════════════════════════════════════════ */
+.photo-grid {
+    text-align: center;
+    overflow: hidden;
+    padding: 60px 0 60px;
+    position: relative;
+}
+
+.text-overlay {
+    position: relative;
+    display: inline-block;
+    margin-bottom: 10px;
+    font-style: italic;
+}
+
+.text-overlay::after {
+    content: '';
+    display: block;
+    height: 2px;
+    width: 0%;
+    background: var(--secondary);
+    margin: 6px auto 0;
+    transition: width 1.2s ease;
+    border-radius: 2px;
+}
+
+.photo-grid.visible .text-overlay::after {
+    width: 50%;
+}
+
+/* Strip wrapper */
+.memory-strip {
+    width: 100%;
+    overflow: hidden;
+    margin-top: 30px;
+    padding: 15px 0 15px;
+    background: transparent;
+}
+
+/* Track yang bergerak */
+.memory-track {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: max-content;
+    animation: photo-scroll 80s linear infinite;
+}
+
+/* Pause saat hover */
+.memory-strip:hover .memory-track {
+    animation-play-state: paused;
+}
+
+@keyframes photo-scroll {
+    0%   { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+}
+
+/* Kartu foto — tinggi tetap, lebar mengikuti aspect ratio foto */
+.memory-photo {
+    flex-shrink: 0;
+    height: 240px;
+    width: auto;       /* lebar mengikuti aspect ratio foto asli */
+    overflow: hidden;
+    border-radius: 4px;
+    box-shadow: 0 4px 15px rgba(93, 64, 55, 0.12);
+    background-color: var(--secondary);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+}
+
+.memory-photo:hover {
+    transform: translateY(-8px) scale(1.04);
+    box-shadow: 0 12px 30px rgba(93, 64, 55, 0.22);
+    z-index: 5;
+    position: relative;
+}
+
+/* Foto di dalam kartu — tinggi 100%, lebar auto = aspect ratio asli */
+.memory-photo img {
+    height: 100%;
+    width: auto;       /* biarkan lebar mengikuti ratio asli */
+    max-width: none;   /* jangan dibatasi */
+    display: block;
+    transition: transform 0.4s ease;
+}
+
+.memory-photo:hover img {
+    transform: scale(1.05);
+}
+/* ═══════════════════════════════════════════
+   END MEMORY PHOTO RUNNING STRIP
+   ═══════════════════════════════════════════ */
+
+/* ═══════════════════════════════
+   SECTION VIDEO PLAYER
+   ═══════════════════════════════ */
+.section-video {
+    width: 100%;
+    height: auto;         /* aspect ratio mengikuti video asli */
+    display: block;
+    border-radius: 8px;
+    box-shadow: 0 6px 24px rgba(93, 64, 55, 0.18);
+    object-fit: contain;  /* tampilkan penuh, tidak crop */
+    background: #000;     /* background hitam saat loading */
+    max-height: 480px;    /* batas maksimum tinggi agar tidak terlalu besar */
+}
+
+/* Override polaroid frame untuk video — tidak perlu rasio tetap */
+.image-box.polaroid .section-video {
+    aspect-ratio: auto;   /* ikuti dimensi asli video */
+}
+/* ═══════════════════════════════
+   END SECTION VIDEO PLAYER
+   ═══════════════════════════════ */
+
+/* ═══════════════════════════════════════════
+   MUSIC PLAYER WIDGET
+   ═══════════════════════════════════════════ */
+#music-player {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    z-index: 9999;
+    font-family: 'Quicksand', sans-serif;
+}
+
+/* ── MINI BAR (selalu tampil) ── */
+#mp-mini {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(250, 218, 221, 0.92);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(183, 110, 121, 0.25);
+    border-radius: 50px;
+    padding: 10px 16px 10px 12px;
+    box-shadow: 0 8px 32px rgba(183, 110, 121, 0.20);
+    cursor: pointer;
+    min-width: 220px;
+    transition: box-shadow 0.3s ease;
+}
+
+#mp-mini:hover {
+    box-shadow: 0 12px 40px rgba(183, 110, 121, 0.32);
+}
+
+#mp-mini-art {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--secondary, #B76E79);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    flex-shrink: 0;
+}
+
+#mp-mini-info {
+    flex: 1;
+    overflow: hidden;
+}
+
+#mp-mini-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: #5D4037;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+#mp-mini-artist {
+    font-size: 11px;
+    color: #9E7B7B;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+#mp-mini-play {
+    background: none;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+    color: #B76E79;
+    padding: 0 4px;
+    flex-shrink: 0;
+    transition: transform 0.2s;
+}
+
+#mp-mini-play:hover { transform: scale(1.2); }
+
+/* ── FULL PANEL ── */
+#mp-panel {
+    position: absolute;
+    bottom: calc(100% + 12px);
+    right: 0;
+    width: 280px;
+    background: rgba(255, 245, 246, 0.97);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(183, 110, 121, 0.20);
+    border-radius: 20px;
+    box-shadow: 0 16px 48px rgba(183, 110, 121, 0.22);
+    padding: 20px;
+    opacity: 0;
+    transform: translateY(16px) scale(0.96);
+    pointer-events: none;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+#mp-panel.open {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    pointer-events: all;
+}
+
+/* Panel header */
+#mp-panel-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 18px;
+}
+
+#mp-art {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #B76E79, #FADADD);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    flex-shrink: 0;
+    box-shadow: 0 4px 12px rgba(183,110,121,0.3);
+}
+
+#mp-info { flex: 1; }
+
+#mp-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: #4A2F35;
+    margin-bottom: 2px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+#mp-artist {
+    font-size: 12px;
+    color: #9E7B7B;
+}
+
+#mp-close-btn {
+    background: none;
+    border: none;
+    color: #B76E79;
+    font-size: 16px;
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 50%;
+    transition: background 0.2s;
+}
+#mp-close-btn:hover { background: rgba(183,110,121,0.12); }
+
+/* Controls */
+#mp-controls-row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 14px;
+}
+
+.mp-ctrl {
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    color: #B76E79;
+    padding: 6px;
+    border-radius: 50%;
+    transition: background 0.2s, transform 0.2s;
+    line-height: 1;
+}
+
+.mp-ctrl:hover {
+    background: rgba(183,110,121,0.12);
+    transform: scale(1.15);
+}
+
+.mp-ctrl.mp-play {
+    font-size: 24px;
+    background: var(--secondary, #B76E79);
+    color: white;
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    box-shadow: 0 4px 14px rgba(183,110,121,0.35);
+}
+
+.mp-ctrl.mp-play:hover {
+    background: #A05A65;
+    transform: scale(1.08);
+}
+
+/* Seek bar */
+#mp-seek-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+    font-size: 11px;
+    color: #9E7B7B;
+}
+
+#mp-vol-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 16px;
+    font-size: 14px;
+}
+
+/* Range input style */
+input[type="range"] {
+    -webkit-appearance: none;
+    appearance: none;
+    flex: 1;
+    height: 4px;
+    border-radius: 4px;
+    background: rgba(183,110,121,0.20);
+    outline: none;
+    cursor: pointer;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 13px;
+    height: 13px;
+    border-radius: 50%;
+    background: #B76E79;
+    box-shadow: 0 2px 6px rgba(183,110,121,0.40);
+    cursor: pointer;
+}
+
+/* Playlist */
+#mp-playlist {
+    max-height: 200px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(183,110,121,0.30) transparent;
+}
+
+.mp-playlist-item {
+    padding: 9px 10px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.mp-playlist-item:hover {
+    background: rgba(183,110,121,0.10);
+}
+
+.mp-playlist-item.active {
+    background: rgba(183,110,121,0.15);
+}
+
+.mp-item-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: #4A2F35;
+}
+
+.mp-item-artist {
+    font-size: 11px;
+    color: #9E7B7B;
+}
+
+.mp-playlist-item.active .mp-item-title {
+    color: #B76E79;
+}
+/* ═══════════════════════════════════════════
+   END MUSIC PLAYER WIDGET
+   ═══════════════════════════════════════════ */
+
+/* ═══════════════════════════════════════════
+   LOVE NOTES SECTION
+   ═══════════════════════════════════════════ */
+.notes-section {
+    padding: 80px 5% 80px;
+    background: linear-gradient(180deg, transparent 0%, rgba(250,218,221,0.12) 50%, transparent 100%);
+}
+
+.notes-header {
+    text-align: center;
+    margin-bottom: 52px;
+}
+
+.notes-subtitle {
+    font-family: 'EB Garamond', serif;
+    font-style: italic;
+    font-size: 1rem;
+    color: #9E7B7B;
+    margin-top: 8px;
+    line-height: 1.7;
+}
+
+/* Layout: feed kiri, form kanan */
+.notes-layout {
+    display: grid;
+    grid-template-columns: 1fr 340px;
+    gap: 40px;
+    align-items: start;
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+/* ── NOTES FEED ── */
+.notes-feed {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 20px;
+    align-items: start;
+}
+
+.notes-empty {
+    font-style: italic;
+    color: #B89B9B;
+    font-size: 0.95rem;
+    text-align: center;
+    padding: 40px 0;
+}
+
+/* Individual note card */
+.note-card {
+    background: #FFF5F6;
+    border-radius: 4px;
+    padding: 22px 20px 16px;
+    box-shadow: 0 4px 20px rgba(93, 64, 55, 0.09),
+                2px 3px 0 rgba(183, 110, 121, 0.06);
+    transform: rotate(var(--rot, 0deg));
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: default;
+    position: relative;
+    border-top: 4px solid rgba(183, 110, 121, 0.18);
+}
+
+.note-card:hover {
+    transform: rotate(0deg) translateY(-4px);
+    box-shadow: 0 12px 32px rgba(93, 64, 55, 0.15);
+    z-index: 2;
+}
+
+.note-text {
+    font-family: 'EB Garamond', serif;
+    font-size: 1rem;
+    color: #4A2F35;
+    line-height: 1.75;
+    margin-bottom: 16px;
+    word-break: break-word;
+}
+
+.note-card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid rgba(183, 110, 121, 0.12);
+    padding-top: 10px;
+}
+
+.note-date {
+    font-size: 0.78rem;
+    font-style: italic;
+    color: #B89B9B;
+}
+
+/* Heart button */
+.note-heart {
+    background: none;
+    border: none;
+    font-size: 0.82rem;
+    color: #C4A0A0;
+    cursor: pointer;
+    padding: 2px 6px;
+    border-radius: 20px;
+    transition: color 0.2s, background 0.2s, transform 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 3px;
+}
+
+.note-heart:hover {
+    background: rgba(183, 110, 121, 0.10);
+    color: #B76E79;
+    transform: scale(1.1);
+}
+
+.note-heart.liked {
+    color: #B76E79;
+    font-size: 0.82rem;
+}
+
+/* ── NOTES FORM ── */
+.notes-form-wrap {
+    background: rgba(255, 245, 246, 0.85);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(183, 110, 121, 0.18);
+    border-radius: 16px;
+    padding: 28px 24px;
+    box-shadow: 0 8px 32px rgba(183, 110, 121, 0.12);
+    position: sticky;
+    top: 30px;
+}
+
+.notes-form-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    color: #7B4F56;
+    margin-bottom: 16px;
+    font-weight: 400;
+}
+
+.note-textarea {
+    width: 100%;
+    border: none;
+    background: transparent;
+    resize: none;
+    font-family: 'EB Garamond', serif;
+    font-size: 1rem;
+    color: #4A2F35;
+    line-height: 1.8;
+    outline: none;
+    border-bottom: 1.5px solid rgba(183, 110, 121, 0.25);
+    padding-bottom: 12px;
+    margin-bottom: 16px;
+    box-sizing: border-box;
+}
+
+.note-textarea::placeholder {
+    color: #C4A0A0;
+    font-style: italic;
+}
+
+.notes-form-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+}
+
+.note-date-preview {
+    font-size: 0.78rem;
+    color: #B89B9B;
+    font-style: italic;
+}
+
+.note-submit-btn {
+    background: #7B4F56;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-family: 'Quicksand', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.25s, transform 0.2s, box-shadow 0.25s;
+    white-space: nowrap;
+    box-shadow: 0 4px 14px rgba(123, 79, 86, 0.30);
+}
+
+.note-submit-btn:hover {
+    background: #6A3D44;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(123, 79, 86, 0.38);
+}
+
+.note-submit-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+    .notes-layout {
+        grid-template-columns: 1fr;
+    }
+    .notes-form-wrap {
+        position: static;
+        order: -1; /* form dulu di mobile */
+    }
+}
+/* ═══════════════════════════════════════════
+   END LOVE NOTES SECTION
+   ═══════════════════════════════════════════ */
+
+@keyframes fadeInUp { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:translateY(0); } }
