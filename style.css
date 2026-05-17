@@ -1091,14 +1091,15 @@ input[type="range"]::-webkit-slider-thumb {
     
     .content-split,
     .content-split.reverse {
-        flex-direction: column;
+        flex-direction: column !important;
+        align-items: center;
         text-align: center;
         gap: 30px;
     }
     
     .text-box, .image-box {
-        width: 100%;
-        flex: none;
+        width: 100% !important;
+        flex: none !important;
     }
 
     /* Polaroid Frames */
@@ -1106,7 +1107,9 @@ input[type="range"]::-webkit-slider-thumb {
         transform: rotate(0) !important;
         margin: 0 auto;
         padding: 10px 10px 40px 10px;
-        max-width: 90%;
+        width: 100%;
+        max-width: 320px;
+        box-sizing: border-box;
     }
 
     /* Typography */
