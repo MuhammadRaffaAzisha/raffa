@@ -22,12 +22,11 @@ function showWelcomeOverlay() {
       </div>
       <div id="mwo-note">♪</div>
       <h2 id="mwo-title">Rapa &amp; Nawa</h2>
-      <p id="mwo-subtitle">Tap untuk mulai mendengarkan musik</p>
+      <p id="mwo-subtitle">masok</p>
       <button id="mwo-btn">
         <span id="mwo-btn-icon">▶</span>
         <span>Mulai</span>
       </button>
-      <p id="mwo-skip">atau tekan di mana saja</p>
     </div>
   `;
 
