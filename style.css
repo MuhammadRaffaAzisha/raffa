@@ -1078,3 +1078,90 @@ input[type="range"]::-webkit-slider-thumb {
    ═══════════════════════════════════════════ */
 
 @keyframes fadeInUp { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:translateY(0); } }
+
+/* ═══════════════════════════════════════════
+   GLOBAL MOBILE RESPONSIVE
+   ═══════════════════════════════════════════ */
+@media (max-width: 768px) {
+    /* Layout & Padding */
+    .section {
+        padding: 50px 5%;
+        min-height: auto;
+    }
+    
+    .content-split,
+    .content-split.reverse {
+        flex-direction: column;
+        text-align: center;
+        gap: 30px;
+    }
+    
+    .text-box, .image-box {
+        width: 100%;
+        flex: none;
+    }
+
+    /* Polaroid Frames */
+    .polaroid, .content-split.reverse .polaroid {
+        transform: rotate(0) !important;
+        margin: 0 auto;
+        padding: 10px 10px 40px 10px;
+        max-width: 90%;
+    }
+
+    /* Typography */
+    .headline {
+        font-size: 2.2rem;
+    }
+    .body-text {
+        font-size: 1.1rem;
+    }
+
+    /* Hero */
+    .hero-content {
+        padding-bottom: 80px;
+    }
+    .deco-putri {
+        right: -60px;
+        width: 80px;
+    }
+    .deco-nasywa {
+        width: 80px;
+    }
+
+    /* Memory Strip & Grid */
+    .memory-photo {
+        height: 160px; /* Lebih kecil di mobile */
+    }
+    .grid-container {
+        gap: 15px;
+    }
+    .grid-container .photo {
+        width: 120px;
+        height: 180px;
+    }
+    .grid-container .photo:nth-child(2) {
+        height: 200px;
+    }
+
+    /* Decorative Flowers (Scale down so they don't block content) */
+    .deco {
+        opacity: 0.5 !important;
+        transform: scale(0.6) !important;
+    }
+    
+    /* Music Player */
+    #mp-mini {
+        min-width: 150px;
+        padding: 6px 12px 6px 8px;
+    }
+    #mp-mini-art {
+        width: 28px;
+        height: 28px;
+        font-size: 14px;
+    }
+    #mp-panel {
+        width: calc(100vw - 40px);
+        right: -10px;
+    }
+}
